@@ -58,6 +58,22 @@
 - name: Add Oracle Java Repository
   become: yes
   apt_repository: repo='ppa:webupd8team/java'
+- replace: name: update SHA256SUM to 161 
+    path: /var/lib/dpkg/info/oracle-java8-installer.*
+    regexp: 'SHA256SUM_TGZ="c78200ce409367b296ec39be4427f020e2c585470c4eed01021feada576f027f"'
+    replace: 'SHA256SUM_TGZ="6dbc56a0e3310b69e91bb64db63a485bd7b6a8083f08e48047276380a0e2021e"'
+- replace: name: update PARTNER_URL to 161 
+    path: /var/lib/dpkg/info/oracle-java8-installer.*
+    regexp: 'PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/'
+    replace: 'PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/'
+- replace: name: update JAVA_VERSION to 161 
+    path: /var/lib/dpkg/info/oracle-java8-installer.*
+    regexp: 'JAVA_VERSION=8u151'
+    replace: 'JAVA_VERSION=8u161'
+- replace: name: update J_DIR to 161 
+    path: /var/lib/dpkg/info/oracle-java8-installer.*
+    regexp: 'J_DIR=jdk1.8.0_151'
+    replace: 'J_DIR=jdk1.8.0_161'
 - name: Accept Java 8 License
   become: yes
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
