@@ -8,6 +8,9 @@ An Ansible config to help you deploy TxBits in production.
 1. sudo apt-add-repository ppa:ansible/ansible
 1. sudo apt-get update
 1. sudo apt-get install ansible
+1. export LC_ALL="en_US.UTF-8"
+1. export LC_CTYPE="en_US.UTF-8"
+1. sudo dpkg-reconfigure locales
 1. `bootstrap.sh`
 1. Continue in one of the two sections below
 
