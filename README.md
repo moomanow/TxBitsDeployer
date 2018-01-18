@@ -5,6 +5,9 @@ An Ansible config to help you deploy TxBits in production.
 ## Usage
 
 1. git clone https://github.com/txbits/TxBitsDeployer.git
+1. sudo apt-add-repository ppa:ansible/ansible
+1. sudo apt-get update
+1. sudo apt-get install ansible
 1. `bootstrap.sh`
 1. Continue in one of the two sections below
 
