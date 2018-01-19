@@ -53,10 +53,8 @@
 
 # global stuff that should happen only once
 - name: Install add-apt-repostory
-  become: yes
   apt: name=software-properties-common state=latest
 - name: Add Oracle Java Repository
-  become: yes
   apt_repository: repo='ppa:webupd8team/java'
 
 - command: sudo sed -i 's|JAVA_VERSION=8u151|JAVA_VERSION=8u161|' /var/lib/dpkg/info/oracle-java8-installer.*
