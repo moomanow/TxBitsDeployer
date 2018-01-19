@@ -11,6 +11,9 @@ An Ansible config to help you deploy TxBits in production.
 1. export LC_ALL="en_US.UTF-8"
 1. export LC_CTYPE="en_US.UTF-8"
 1. sudo dpkg-reconfigure locales
+cd TxBitsDeployer.git
+sudo sed -i 's|staging-testnet|production|' playbook/group_vars/production
+sudo sed -i 's|staging_testnet|production|' playbook/group_vars/production
 1. `bootstrap.sh`
 1. Continue in one of the two sections below
 
@@ -21,14 +24,14 @@ An Ansible config to help you deploy TxBits in production.
 1. Check the ips of the machines and put them into `playbook/group_vars/staging_testnet`
 1. On your host set up your hosts file like this:
     ```
-    192.168.56.107       longcat.staging-testnet-txbits.com
-    192.168.56.104     grumpycat.staging-testnet-txbits.com
-    192.168.56.106       limecat.staging-testnet-txbits.com
     192.168.56.102   businesscat.staging-testnet-txbits.com
-    192.168.56.105        bitcat.staging-testnet-txbits.com
     192.168.56.103       litecat.staging-testnet-txbits.com
+    192.168.56.104     grumpycat.staging-testnet-txbits.com
+    192.168.56.105        bitcat.staging-testnet-txbits.com
+    192.168.56.106       limecat.staging-testnet-txbits.com
+    192.168.56.107       longcat.staging-testnet-txbits.com
     192.168.56.108          mail.staging-testnet-txbits.com
-
+    
     192.168.56.107               staging-testnet-txbits.com
     192.168.56.104       monitor.staging-testnet-txbits.com
     ```
@@ -42,6 +45,19 @@ An Ansible config to help you deploy TxBits in production.
 1. Copy `playbook/staging_testnet_hosts` to `playbook/production_hosts` and replace any references to `staging_testnet` with `production`
 1. Copy `playbook/group_vars/staging_testnet` to `playbook/group_vars/production` if it doesn't already exist
 1. Update the private ips in `playbook/group_vars/production`
+192.168.56.0/24
+     ```
+    192.168.56.102   businesscat.staging-testnet-txbits.com
+    192.168.56.103       litecat.staging-testnet-txbits.com
+    192.168.56.104     grumpycat.staging-testnet-txbits.com
+    192.168.56.105        bitcat.staging-testnet-txbits.com
+    192.168.56.106       limecat.staging-testnet-txbits.com
+    192.168.56.107       longcat.staging-testnet-txbits.com
+    192.168.56.108          mail.staging-testnet-txbits.com
+    
+    192.168.56.107               staging-testnet-txbits.com
+    192.168.56.104       monitor.staging-testnet-txbits.com
+    ```
 1. Create a secrets file in `playbook/secrets` called `production.json` based on `staging_testnet.json`
 1. Install the only dependency for gen.py: `pip3 install passlib && sudo apt-get install opendkim opendkim-tools`
 1. Run `python3 ./gen.py production.json`
