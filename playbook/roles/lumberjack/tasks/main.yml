@@ -16,7 +16,7 @@
 - command: cp -r /root/logstash-forwarder /opt/lumberjack creates=/opt/lumberjack
 - file: path=/opt/lumberjack state=directory owner=root group=lumberjack mode=750
 
-- shell: sh > /opt/lumberjack/lumberjack_make.log -c 'export PATH=/opt/go/bin:$PATH; export GOROOT=/opt/go; make 2>&1'
+- shell: sh > /opt/lumberjack/lumberjack_make.log -c 'export PATH=/opt/go/bin:$PATH; export GOROOT=/opt/go; export CGO_ENABLED=0; make 2>&1'
   args:
     chdir: /opt/lumberjack
     creates: /opt/lumberjack/build/bin/lumberjack.sh
