@@ -6,7 +6,7 @@
 - group: name=lumberjack state=present system=yes
 - user: name=lumberjack createhome=no group=lumberjack state=present system=yes
 
-- get_url: url=https://dl.google.com/go/go1.2.2.linux-amd64.tar.gz sha256sum=6bd151ca49c435462c8bf019477a6244b958ebb5 dest=/root/go.tar.gz
+- get_url: url=https://dl.google.com/go/go1.2.2.linux-amd64.tar.gz sha256sum=82f6bc5b933c0ccc48f5bbd4c329327f743824e38835847d085d5c9b75022290 dest=/root/go.tar.gz
 - command: tar -zxvf go.tar.gz chdir=/root creates=/root/go
 - command: cp -r /root/go /opt/go creates=/opt/go
 
