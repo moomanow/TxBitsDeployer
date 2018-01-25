@@ -11,13 +11,13 @@
 
 - file: path=/etc/spiped state=directory mode=755
 
-- group: name="spiped-{{item.name}}"
+- group: "name=spiped-{{item.name}}"
   with_items: spipes
 
-- user: name="spiped-{{item.name}}" group="spiped-{{item.name}}"
+- user: "name=spiped-{{item.name}}" "group=spiped-{{item.name}}"
   with_items: spipes
 
-- copy: src="secrets/{{txbits_env}}/spiped/{{item.name}}" dest="/etc/spiped/secret-{{item.name}}" owner=root group="spiped-{{item.name}}" mode=640
+- copy: "src=secrets/{{txbits_env}}/spiped/{{item.name}}" "dest=/etc/spiped/secret-{{item.name}}" owner=root "group=spiped-{{item.name}}" mode=640
   with_items: spipes
   notify:
     - restart spiped
