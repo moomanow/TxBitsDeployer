@@ -1,16 +1,16 @@
 - apt: name=postgresql-9.1 state=absent
-- apt: name=postgresql-9.5 state=absent
-- apt: name=postgresql-9.3 state=present
+- apt: name=postgresql-9.4 state=absent
+- apt: name=postgresql-9.5 state=present
 - apt: name=sudo state=present
 - apt: name=postgresql-contrib-9.1 state=absent
-- apt: name=postgresql-contrib-9.5 state=absent
-- apt: name=postgresql-contrib-9.3 state=present
+- apt: name=postgresql-contrib-9.4 state=absent
+- apt: name=postgresql-contrib-9.5 state=present
 
-- template: src=postgres/postgresql.conf dest=/etc/postgresql/9.3/main/postgresql.conf
+- template: src=postgres/postgresql.conf dest=/etc/postgresql/9.5/main/postgresql.conf
   notify:
     - restart postgres
 
-- template: src=postgres/pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf
+- template: src=postgres/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
   notify:
     - restart postgres
 
