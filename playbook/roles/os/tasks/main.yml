@@ -2,7 +2,7 @@
 - copy: src=GPG-KEY-elasticsearch dest=/root/GPG-KEY-elasticsearch
 - command: apt-key add /root/GPG-KEY-elasticsearch
   changed_when: False
-- copy: src=sources.list dest=/etc/apt/sources.list.d/elasticsearch.list owner=root group=root mode=644
+- copy: src=elasticsearch.list dest=/etc/apt/sources.list.d/elasticsearch.list owner=root group=root mode=644
 # hostname
 - copy: content={{inventory_hostname}} dest=/etc/hostname
 - command: hostname {{inventory_hostname}}
