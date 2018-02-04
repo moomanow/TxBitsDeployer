@@ -11,6 +11,8 @@ import os.path
 import shutil
 import random
 import string
+import io
+import yaml
 from passlib.hosts import linux_context
 
 def not_exists(*filenames):
@@ -133,11 +135,12 @@ def main():
             if not_exists(filename):
                 make_dirs(filename)
                 os.system('dd if=/dev/urandom of={0} bs=32 count=1'.format(filename))
-        spiped_secrets = [
-          'memcached',
-          'bitcoind',
-          'litecoind'
-        ]
+        #spiped_secrets = [
+        #  'memcached',
+        #  'bitcoind',
+        #  'litecoind'
+        #]
+        spiped_secrets = conf['spiped_secrets']
         for s in spiped_secrets:
           make_spiped_secret(s)
 
@@ -152,22 +155,32 @@ def main():
         # vars (passwords, etc)
         filename = pfx('vars.yml')
         if not_exists(filename):
-            # generate password hash for user module
-            # TODO: it would be great to rename mail_password to something like mail_password_hash
-            if conf['vars']['txbits_mail_password'] == '[generate]':
-                conf['vars']['txbits_mail_password'] = random_pass()
-            conf['vars']['mail_password'] = linux_context.encrypt(conf['vars']['txbits_mail_password'])
+           data_loaded = {}
+        else:
+           with open(filename, 'r') as stream:
+               data_loaded = yaml.load(stream)
+        # generate password hash for user module
+        # TODO: it would be great to rename mail_password to something like mail_password_hash
+        if conf['vars']['txbits_mail_password'] == '[generate]':
+             conf['vars']['txbits_mail_password'] = random_pass()
+        conf['vars']['mail_password'] = linux_context.encrypt(conf['vars']['txbits_mail_password'])
 
-            text = ''
-            for k, v in conf['vars'].items():
-                if v == '[generate]':
-                    v = random_pass()
-                elif v == '[generate_lowercase]':
-                    v = random_pass_lowercase()
-                # XXX: this can be improved
-                text += k + ': "' + v + '"\n'
-            write(filename, text)
-            print("Wrote vars file.")
+        text = ''
+        for k, v in conf['vars'].items():
+            if k in data_loaded:
+               print(k+' : '+data_loaded[k])
+            else:
+               if v == '[generate]':
+                   v = random_pass()
+               elif v == '[generate_lowercase]':
+                   v = random_pass_lowercase()
+               # XXX: this can be improved
+               text += k + ': "' + v + '"\n'
+               data_loaded[k]=v
+        #write(filename, text)
+        with io.open(filename, 'w', encoding='utf8') as outfile:
+                yaml.dump(data_loaded, outfile, default_flow_style=False, allow_unicode=True)
+        print("Wrote vars file.")
 
         # trust store for trusting the self signed cert of the mail server in staging
         filename = pfx('txbits_truststore')
@@ -197,8 +210,9 @@ def main():
                         )
                     )
                     print("Created tarsnap write only key.")
-            gen_tarsnap_key('bitcoin')
-            gen_tarsnap_key('litecoin')
+            gen_tarsnap_key = conf['gen_tarsnap_key']
+            for t in spiped_secrets:
+              gen_tarsnap_key(t)
 
 if __name__ == '__main__':
     main()
